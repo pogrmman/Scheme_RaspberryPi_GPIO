@@ -1,18 +1,20 @@
 ;; Example usage of wiringPi bindings
-;; This program blinks an LED connected to wiringPi GPIO pin 6 (Broadcom GPIO pin 25) 
+;; This program blinks an LED connected to a GPIO pin 
 (import (scheme base)
+	(scheme process-context)
 	(raspberry-pi gpio setup)
 	(raspberry-pi gpio pins)
 	(raspberry-pi gpio timing))
 
 (begin
   (gpio-setup!)
-  (pin-mode! 6 OUTPUT)
-  (let kernel ((counter 10))
-    (if (not (zero? counter))
-	(begin
-	  (set-pin! 6 HIGH)
-	  (wait 100)
-	  (set-pin! 6 LOW)
-	  (wait 100)
-	  (kernel (- counter 1))))))
+  (let ((args (command-line-arguments)))
+    (let ((pin (pin-mode! (string->number (car args)) OUTPUT)))
+      (let kernel ((counter 10))
+	(if (not (zero? counter))
+	    (begin
+	      (set-pin! pin HIGH)
+	      (wait 100)
+	      (set-pin! pin LOW)
+	      (wait 100)
+	      (kernel (- counter 1))))))))
