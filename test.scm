@@ -1,3 +1,6 @@
+;; Example usage of wiringPi bindings
+;; This program blinks an LED connected to a GPIO pin
+;; To use it, compile with make, then run ./test $PIN_NUMBER$
 (import (scheme base)
         (scheme process-context)
         (raspberry-pi gpio setup)
