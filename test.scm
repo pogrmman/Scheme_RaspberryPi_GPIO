@@ -1,3 +1,5 @@
+;; Example usage of wiringPi bindings
+;; This program blinks an LED connected to wiringPi GPIO pin 6 (Broadcom GPIO pin 25) 
 (import (scheme base)
 	(raspberry-pi gpio setup)
 	(raspberry-pi gpio pins)
