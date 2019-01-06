@@ -1,0 +1,9 @@
+# Ignore emacs backups
+*~
+\#*
+# Ignore compiled files
+*.so
+# Ignore files generated during compilation
+*.c
+*.o
+*.meta
