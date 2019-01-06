@@ -15,7 +15,7 @@
     (if (not (zero? counter))
         (begin
          (set-pin! pin HIGH)
-         (wait 100)
+         (wait! 100)
          (set-pin! pin LOW)
-         (wait 100)
+         (wait! 100)
          (kernel (- counter 1)))))))
