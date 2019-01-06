@@ -1,8 +1,9 @@
-(define-library (gpio pins)
+(define-library (raspberry-pi gpio pins)
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
 
   (export pin-mode write-pin read-pin INPUT OUTPUT PWM_OUTPUT)
+
   (begin
     (define-c pin-mode
       "(void *data, int argc, closure _, object k, object pin, object mode)"
