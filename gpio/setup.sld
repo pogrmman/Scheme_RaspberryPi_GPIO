@@ -2,7 +2,7 @@
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
 
-  (export gpio-setup! gpio-setup-BCM!)
+  (export gpio-setup! gpio-setup-BCM! gpio-setup-SYS!)
 
   (begin
     (define-c gpio-setup!
@@ -17,6 +17,15 @@
     (define-c gpio-setup-BCM!
       "(void *data, int argc, closure _, object k)"
       "int succ = wiringPiSetupGpio();
+       if (succ == -1) {
+         return_closcall1(data, k, boolean_f);
+       }
+       return_closcall1(data, k, boolean_t);
+      ")
+
+    (define-c gpio-setup-SYS!
+      "(void *data, int argc, closure _, object k)"
+      "int succ = wiringPiSetupSys();
        if (succ == -1) {
          return_closcall1(data, k, boolean_f);
        }

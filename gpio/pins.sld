@@ -2,7 +2,10 @@
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
 
-  (export pin-mode! set-pin! read-pin INPUT OUTPUT PWM_OUTPUT HIGH LOW)
+  (export pin-mode! set-pin! read-pin set-pull-up-down! set-pins!
+	  INPUT OUTPUT PWM_OUTPUT
+	  HIGH LOW
+	  PUD_OFF PUD_DOWN PUD_UP)
 
   (begin
     (define-c pin-mode!
@@ -33,8 +36,38 @@
         return_closcall1(data, k, obj_obj2int(reading));
       ")
 
+    (define-c set-pull-up-down!
+      "(void *data, int argc, closure _, object k, object pin, object state)"
+      " int int_pin = (int) (unbox_number(pin));
+        int int_state = (int) (unbox_number(state));
+        if (int_state == 0) {
+          pullUpDnControl(int_pin, PUD_OFF);
+        } else if (int_state == 1) {
+          pullUpDnControl(int_pin, PUD_DOWN);
+        } else if (int_state == 2) {
+          pullUpDnControl(int_pin, PUD_UP);
+        } else {
+          return_closcall1(data, k, boolean_f);
+        }
+        return_closcall1(data, k, boolean_t);
+      ")
+
+    (define-c set-pins!
+      "(void *data, int argc, closure _, object k, object val)"
+      " digitalWriteByte((int) (unbox_number(val)));
+        return_closcall1(data, k, boolean_t);
+      ")
+
+    ;; Pin mode aliases
     (define OUTPUT 0)
     (define INPUT 1)
     (define PWM_OUTPUT 2)
+
+    ;; Pin on/off aliases
     (define HIGH 1)
-    (define LOW 0)))
+    (define LOW 0)
+
+    ;; Pin pull up/down aliases
+    (define PUD_OFF 0)
+    (define PUD_DOWN 1)
+    (define PUD_UP 2)))
