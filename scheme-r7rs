@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Copyright 2019 Alexander Mohn
+# This script is released under the GNU General Public License v3.
+# See the LICENSE file in the accompanying directory for more details.
+
+# This script allows you to run a scheme script specified with
+# the #!/usr/env/bin scheme-r7rs specified in SRFI 22
+
+# Because the Cyclone scheme interpreter does not recognize this shebang
+# this script re-writes the original scheme script to a tempfile and runs it
+# from there.
+
+file=`mktemp` || exit 1
+tail -n +2 $1 >> $file
+icyc -s "$@" $file
+rm $file
