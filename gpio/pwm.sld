@@ -19,20 +19,21 @@
 (define-library (raspberry-pi gpio pwm)
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
-
-  (export pwm-set-pin! pwm-set-mode! pwm-set-range! pwm-set-clock!
-	  PWM-BALANCED PWM-MS)
+  (include "better-c.scm")
+  (include "pin-mode.scm")
+  
+  (export pin-mode! pwm-set-pin! pwm-set-mode! pwm-set-range! pwm-set-clock!
+	  PWM-BALANCED PWM-MS
+	  INPUT OUTPUT PWM_OUTPUT)
 
   (begin
     ;; C Wrappers
-    (define-c pwm-set-pin!
-      "(void *data, int argc, closure _, object k, object pin, object val)"
+    (def-c (pwm-set-pin! "pin" "val")
       " pwmWrite((int) (unbox_number(pin)), (int) (unbox_number(val)));
         return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c pwm-set-mode!
-      "(void *data, int argc, closure _, object k, object mode)"
+    (def-c (pwm-set-mode! "mode")
       " int int_mode = (int) (unbox_number(mode));
         if (int_mode == 0) {
           pwmSetMode(PWM_MODE_BAL);
@@ -44,14 +45,12 @@
         return_closcall1(data, k, boolean_t);
       ")
  
-    (define-c pwm-set-range!
-      "(void *data, int argc, closure _, object k, object val)"
+    (def-c (pwm-set-range! "val")
       " pwmSetRange((unsigned int) (unbox_number(val)));
         return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c pwm-set-clock!
-      "(void *data, int argc, closure _, object k, object val)"
+    (def-c (pwm-set-clock! "val")
       " pwmSetClock((int) (unbox_number(val)));
         return_closcall1(data, k, boolean_t);
       ")

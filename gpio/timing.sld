@@ -19,24 +19,22 @@
 (define-library (raspberry-pi gpio timing)
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
-
+  (include "better-c.scm")
+  
   (export wait! us-wait! millis)
 
   (begin
-    (define-c wait!
-      "(void *data, int argc, closure _, object k, object time)"
+    (def-c (wait! "time")
       " delay((unsigned int) (unbox_number(time)));
         return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c us-wait!
-      "(void *data, int argc, closure _, object k, object time)"
+    (def-c (us-wait! "time")
       " delayMicroseconds((unsigned int) (unbox_number(time)));
         return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c millis
-      "(void *data, int argc, closure _, object k)"
+    (def-c millis
       " unsigned int result = millis();
         return_closcall1(data, k, obj_obj2int(result));
       ")))

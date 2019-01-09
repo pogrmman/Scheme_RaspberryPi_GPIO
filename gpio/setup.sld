@@ -19,12 +19,12 @@
 (define-library (raspberry-pi gpio setup)
   (import (scheme base))
   (include-c-header "<wiringPi.h>")
-
+  (include "better-c.scm")
+  
   (export gpio-setup! gpio-setup-BCM! gpio-setup-SYS!)
 
   (begin
-    (define-c gpio-setup!
-      "(void *data, int argc, closure _, object k)"
+    (def-c gpio-setup!
       "int succ = wiringPiSetup();
        if (succ == -1) {
          return_closcall1(data, k, boolean_f);
@@ -32,8 +32,7 @@
        return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c gpio-setup-BCM!
-      "(void *data, int argc, closure _, object k)"
+    (def-c gpio-setup-BCM!
       "int succ = wiringPiSetupGpio();
        if (succ == -1) {
          return_closcall1(data, k, boolean_f);
@@ -41,8 +40,7 @@
        return_closcall1(data, k, boolean_t);
       ")
 
-    (define-c gpio-setup-SYS!
-      "(void *data, int argc, closure _, object k)"
+    (def-c gpio-setup-SYS!
       "int succ = wiringPiSetupSys();
        if (succ == -1) {
          return_closcall1(data, k, boolean_f);

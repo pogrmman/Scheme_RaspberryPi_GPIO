@@ -6,7 +6,6 @@
 ;; are unclear to me)
 (import (scheme base)
 	(raspberry-pi gpio setup)
-	(raspberry-pi gpio pins)
 	(raspberry-pi gpio timing)
 	(raspberry-pi gpio pwm))
 
