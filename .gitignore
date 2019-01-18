@@ -7,3 +7,7 @@
 *.c
 *.o
 *.meta
+# Ignore example executables
+examples/pwm
+examples/test
+examples/misc

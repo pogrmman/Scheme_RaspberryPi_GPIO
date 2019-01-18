@@ -23,7 +23,7 @@
   (include "pin-mode.scm")
   
   (export pin-mode! pwm-set-pin! pwm-set-mode! pwm-set-range! pwm-set-clock!
-	  PWM-BALANCED PWM-MS
+	  PWM_BALANCED PWM_MS
 	  INPUT OUTPUT PWM_OUTPUT)
 
   (begin
@@ -56,5 +56,5 @@
       ")
 
     ;; Mode Aliases
-    (define PWM-BALANCED 0)
-    (define PWM-MS 1)))
+    (define PWM_BALANCED 0)
+    (define PWM_MS 1)))

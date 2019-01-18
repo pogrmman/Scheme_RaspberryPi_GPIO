@@ -16,30 +16,24 @@
 ;;   along with the Cyclone Scheme WiringPi Bindings.  
 ;;   If not, see <https://www.gnu.org/licenses/>.
 
-(define-library (raspberry-pi gpio misc)
-  (import (scheme base))
-  (include-c-header "<wiringPi.h>")
-  (include "better-c.scm")
+;; This library imports all of the wiringPi wrapper modules and exports the same
+;; api that they do.
+(define-library (raspberry-pi gpio)
+  (import (scheme base)
+	  (raspberry-pi gpio pins)
+	  (raspberry-pi gpio pwm)
+	  (raspberry-pi gpio setup)
+	  (raspberry-pi gpio timing)
+	  (raspberry-pi gpio threading)
+	  (raspberry-pi gpio misc))
 
-  (export pi-board-rev wiringPi->BCM phys->BCM set-pad-drive!)
-
-  (begin
-    (def-c pi-board-rev
-      "int board_rev = piBoardRev();
-       return_closcall1(data, k, obj_obj2int(board_rev));
-      ")
-
-    (def-c (wiringPi->BCM "pin")
-      "int BCM_pin = wpiPinToGpio((int) (unbox_number(pin)));
-       return_closcall1(data, k, obj_obj2int(BCM_pin));
-      ")
-
-    (def-c (phys->BCM "pin")
-      "int BCM_pin = physPinToGpio((int) (unbox_number(pin)));
-       return_closcall1(data, k, obj_obj2int(BCM_pin));
-      ")
-
-    (def-c (set-pad-drive! "group" "value")
-      "setPadDrive((int) (unbox_number(group)), (int) (unbox_number(value)));
-       return_closcall1(data, k, boolean_t);
-      ")))
+  (export pin-mode! set-pin! read-pin set-pull-up-down! set-pins!
+	  pwm-set-pin! pwm-set-mode! pwm-set-range! pwm-set-clock!
+	  gpio-setup! gpio-setup-BCM! gpio-setup-SYS!
+	  wait! us-wait! millis
+	  def-thread start-thread! mutex-lock! mutex-unlock!
+	  pi-board-rev wiringPi->BCM set-pad-drive!
+	  INPUT OUTPUT PWM_OUTPUT
+	  HIGH LOW
+	  PUD_OFF PUD_DOWN PUD_UP
+	  PWM_BALANCED PWM_MS))

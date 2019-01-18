@@ -22,12 +22,25 @@
 (define-library (raspberry-pi gpio threading)
   (import (scheme base)
 	  (srfi 18))
+  (include-c-header "<wiringPi.h>")
+  (include "better-c.scm")
 
-  (export def-thread start-thread! mutex-lock! mutex-unlock!)
+  (export thread-start! mutex-lock! mutex-unlock!
+	  def-thread set-priority!)
 
   (begin
+    ; Thread builder comparable to PI_THREAD declaration
     (define-syntax def-thread
       (syntax-rules ()
 	((def-thread name body ...)
 	 (define name
-	   (make-thread (lambda () body ...) 'name)))))))
+	   (make-thread (lambda () body ...) 'name)))))
+
+    ; Should really check the errno variable and return that, but this sufficies for now
+    (def-c (set-priority! "priority")
+      "int succ = piHiPri((int) (unbox_number(priority)));
+       if (succ == -1) {
+         return_closcall1(data, k, boolean_f);
+       }
+       return_closcall1(data, k, boolean_t);
+      ")))

@@ -1,0 +1,10 @@
+(import (scheme base)
+	(scheme write)
+	(raspberry-pi gpio misc))
+(begin
+  (display "Pi Board Revision is: ")
+  (display (pi-board-rev))
+  (newline)
+  (display "WiringPi pin 1 is BCM pin: ")
+  (display (wiringPi->BCM 1))
+  (newline))

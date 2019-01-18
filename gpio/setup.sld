@@ -21,7 +21,7 @@
   (include-c-header "<wiringPi.h>")
   (include "better-c.scm")
   
-  (export gpio-setup! gpio-setup-BCM! gpio-setup-SYS!)
+  (export gpio-setup! gpio-setup-BCM! gpio-setup-SYS! gpio-setup-PHYS!)
 
   (begin
     (def-c gpio-setup!
@@ -42,6 +42,14 @@
 
     (def-c gpio-setup-SYS!
       "int succ = wiringPiSetupSys();
+       if (succ == -1) {
+         return_closcall1(data, k, boolean_f);
+       }
+       return_closcall1(data, k, boolean_t);
+      ")
+
+    (def-c gpio-setup-PHYS!
+      "int succ = wiringPiSetupPhys();
        if (succ == -1) {
          return_closcall1(data, k, boolean_f);
        }

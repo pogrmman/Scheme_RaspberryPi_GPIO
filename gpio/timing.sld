@@ -21,20 +21,25 @@
   (include-c-header "<wiringPi.h>")
   (include "better-c.scm")
   
-  (export wait! us-wait! millis)
+  (export wait! us-wait! millis micros)
 
   (begin
     (def-c (wait! "time")
-      " delay((unsigned int) (unbox_number(time)));
-        return_closcall1(data, k, boolean_t);
+      "delay((unsigned int) (unbox_number(time)));
+       return_closcall1(data, k, boolean_t);
       ")
 
     (def-c (us-wait! "time")
-      " delayMicroseconds((unsigned int) (unbox_number(time)));
-        return_closcall1(data, k, boolean_t);
+      "delayMicroseconds((unsigned int) (unbox_number(time)));
+       return_closcall1(data, k, boolean_t);
       ")
 
     (def-c millis
-      " unsigned int result = millis();
-        return_closcall1(data, k, obj_obj2int(result));
+      "unsigned int result = millis();
+       return_closcall1(data, k, obj_obj2int(result));
+      ")
+
+    (def-c micros
+      "unsigned int result = micros();
+       return_closcall1(data, k, obj_obj2int(result));
       ")))
