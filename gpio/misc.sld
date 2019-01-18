@@ -29,14 +29,16 @@
        return_closcall1(data, k, obj_obj2int(board_rev));
       ")
 
+    ; WARNING: segfaults if pins are not setup!
     (def-c (wiringPi->BCM "pin")
-      "int BCM_pin = wpiPinToGpio((int) (unbox_number(pin)));
-       return_closcall1(data, k, obj_obj2int(BCM_pin));
+      "int bcm_pin = wpiPinToGpio((int) (unbox_number(pin)));
+       return_closcall1(data, k, obj_obj2int(bcm_pin));
       ")
 
+    ; WARNING: segfaults if pins are not setup!
     (def-c (phys->BCM "pin")
-      "int BCM_pin = physPinToGpio((int) (unbox_number(pin)));
-       return_closcall1(data, k, obj_obj2int(BCM_pin));
+      "int bcm_pin = physPinToGpio((int) (unbox_number(pin)));
+       return_closcall1(data, k, obj_obj2int(bcm_pin));
       ")
 
     (def-c (set-pad-drive! "group" "value")
