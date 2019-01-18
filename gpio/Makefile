@@ -10,3 +10,5 @@ timing: timing.sld
 	cyclone timing.sld
 threading: threading.sld
 	cyclone threading.sld
+misc: misc.sld
+	cyclone misc.sld
