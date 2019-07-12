@@ -12,3 +12,5 @@ threading: threading.sld
 	cyclone threading.sld
 misc: misc.sld
 	cyclone misc.sld
+spi: spi.sld
+	cyclone spi.sld
